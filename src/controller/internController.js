@@ -14,7 +14,11 @@ const createInternDocument = async (req, res) => {
         let data = req.body;
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, msg: "BAD REQUEST,Please provide intern details " });
-        }
+        }let collegedata = await collegeModel.findOne({name:data.collegeName})
+    if(!collegedata) {
+      return res.status(400).send({ status: false, message: "Please Provide valid CollegeName" });
+    }
+     data["collegeId"] = collegedata._id
          //collgeId
         let collegeId = data.collegeId
         if (!collegeId) {
